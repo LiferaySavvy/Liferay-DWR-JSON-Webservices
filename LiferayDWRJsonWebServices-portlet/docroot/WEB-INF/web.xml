@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app id="WebApp_ID" version="2.4"
+	xmlns="http://java.sun.com/xml/ns/j2ee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd">
+	<display-name>LiferayDWRJsonWebServices-portlet</display-name>
+	<listener>
+		<listener-class>org.directwebremoting.servlet.DwrListener</listener-class>
+	</listener>
+	<servlet>
+		<servlet-name>dwr-invoker</servlet-name>
+		<servlet-class>org.directwebremoting.servlet.DwrServlet</servlet-class>
+		<init-param>
+			<param-name>fileUploadMaxBytes</param-name>
+			<param-value>25000</param-value>
+		</init-param>
+
+		<!-- This should NEVER be present in live -->
+		<init-param>
+			<param-name>debug</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<init-param>
+			<param-name>accessLogLevel</param-name>
+			<param-value>runtimeexception</param-value>
+		</init-param>
+
+		<!-- Remove this unless you want to use active reverse ajax -->
+		<init-param>
+			<param-name>activeReverseAjaxEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<!-- By default DWR creates application scope objects when they are first 
+			used. This creates them when the app-server is started -->
+		<init-param>
+			<param-name>initApplicationScopeCreatorsAtStartup</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<!-- WARNING: allowing JSON-RPC connections bypasses much of the security 
+			protection that DWR gives you. Take this out if security is important -->
+		<init-param>
+			<param-name>jsonRpcEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<!-- WARNING: allowing JSONP connections bypasses much of the security 
+			protection that DWR gives you. Take this out if security is important -->
+		<init-param>
+			<param-name>jsonpEnabled</param-name>
+			<param-value>true</param-value>
+		</init-param>
+
+		<!-- data: URLs are good for small images, but are slower, and could OOM 
+			for larger images. Leave this out (or keep 'false') for anything but small 
+			images -->
+		<init-param>
+			<param-name>preferDataUrlSchema</param-name>
+			<param-value>false</param-value>
+		</init-param>
+
+		<!-- For more information on these parameters, see: - http://getahead.org/dwr/server/servlet 
+			- http://getahead.org/dwr/reverse-ajax/configuration -->
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>dwr-invoker</servlet-name>
+		<url-pattern>/dwr/*</url-pattern>
+	</servlet-mapping>
+	<jsp-config>
+		<taglib>
+			<taglib-uri>http://java.sun.com/portlet_2_0</taglib-uri>
+			<taglib-location>/WEB-INF/tld/liferay-portlet.tld</taglib-location>
+		</taglib>
+		<taglib>
+			<taglib-uri>http://liferay.com/tld/aui</taglib-uri>
+			<taglib-location>/WEB-INF/tld/aui.tld</taglib-location>
+		</taglib>
+	</jsp-config>
+
+</web-app>
